@@ -138,25 +138,3 @@ class RateWindowLimiter:
         # 如果没有可用的密钥，更新索引以尝试下一个密钥
         self.redis.set(index_key, (current_index + 1) % total_keys)
         return False, min_wait, ""
-
-
-# 初始化Redis客户端
-redis_client = redis.Redis(host='localhost', port=6379, decode_responses=True)
-
-# 创建限流器（示例参数）
-api_key_limits = {
-    "api_key_1": {"max_rpm": 2, "max_tpm": 5000, "max_tpd": 100000},
-    "api_key_2": {"max_rpm": 3, "max_tpm": 6000, "max_tpd": 120000},
-    "api_key_3": {"max_rpm": 4, "max_tpm": 7000, "max_tpd": 140000},
-}
-rate_limiter = RateWindowLimiter(api_key_limits=api_key_limits, redis_client=redis_client)
-
-# 模拟请求
-for _ in range(15):
-    allowed, wait_time, api_key = rate_limiter.acquire()
-    if allowed:
-        print(f"请求成功，使用API密钥: {api_key}")
-        # 执行API调用...
-    else:
-        print(f"需等待 {wait_time:.2f} 秒后重试，API密钥: {api_key}")
-        time.sleep(wait_time)

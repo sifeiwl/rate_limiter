@@ -8,7 +8,7 @@ setup(
     long_description_content_type='text/markdown',
     author='Your Name',
     author_email='your.email@example.com',
-    url='https://github.com/yourusername/rate_limiter',  # 项目的URL
+    url='https://github.com/sifeiwl/rate_limiter.git',  # 项目的URL
     packages=find_packages(),
     install_requires=[
         'redis',  # 依赖的库
